@@ -24,3 +24,6 @@ Libraries used:
 - Streamlit: For the web app interface
 - OpenAI: For talking to the AI Models
 - Dotenv: For managing environment variables
+
+![Screen.png](assets/screen.png)
+![Story.png](assets/story.png)
