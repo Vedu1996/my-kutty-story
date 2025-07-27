@@ -36,7 +36,11 @@ num_paragraphs = st.slider(
     key="num_paragraphs"
 )
 
-render_images = True
+render_images = st.toggle(
+    "Generate story images",
+    value=True,
+    key="render_images"
+)
 
 def render_with_image(paragraph: str):
     col1, col2 = st.columns(2)
@@ -57,19 +61,19 @@ def render_with_image(paragraph: str):
           )
         st.caption(image_description)
 
-def render_story_panel(paragraph: str):
+def render_story_panel(paragraph: str, render_images: bool):
     """Render the story panel."""
     if render_images:
       render_with_image(paragraph)
     else:
       st.markdown(paragraph)
 
-def render_story(story: str):
+def render_story(story: str, render_images: bool = True):
     """Render the story with paragraphs."""
     paragraphs = story.split("\n\n")
     for paragraph in paragraphs:
         if paragraph.strip():
-            render_story_panel(paragraph.strip())
+            render_story_panel(paragraph.strip(), render_images=render_images)
             st.divider()
 
 st.markdown('<div id="story"></div>', unsafe_allow_html=True)
@@ -88,7 +92,7 @@ if selected_genres and len(selected_genres) > 0 and num_paragraphs > 0:
               st.header(title, anchor=title.replace(" ", "-").lower())
               if summary:
                st.html(f'<p style="color: grey">{summary}</p>')
-              render_story(story)
+              render_story(story, render_images=render_images)
               st.toast('Story generated successfully!', icon="✅")
           except APIConnectionError:
             st.error("Failed to connect to the story generation service. Please try again later.")
